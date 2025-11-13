@@ -14,8 +14,9 @@ def img_to_base64_str(path):
         b64_bytes = base64.b64encode(img_file.read())
         return f"data:image/jpeg;base64,{b64_bytes.decode()}"
 
-doctor_img_base64 = img_to_base64_str(r"C:\Users\abhin\brain tumour\doctor.jpeg")
-brain_img_base64 = img_to_base64_str(r"C:\Users\abhin\brain tumour\brain.jpeg")
+doctor_img_base64 = img_to_base64_str("doctor.jpeg")
+brain_img_base64  = img_to_base64_str("brain.jpeg")
+
 
 # --------- PAGE STYLE (paste your CSS here) ---------
 page_style = f"""
@@ -158,4 +159,5 @@ st.markdown("""
   <small>24x7 emergency support | &copy; 2025 CareSync | <a href="https://www.who.int/health-topics" target="_blank" style="color:#a2e6d3;text-decoration:underline;">WHO Health Topics</a></small>
 </div>
 """, unsafe_allow_html=True)
+
 

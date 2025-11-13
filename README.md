@@ -58,4 +58,4 @@ HD-wallpaper-medical-hospital.jpg # UI header imag
 
 ---
 
-**© 2025 Abhinov | AI Health | GATE-2026 Project**
+**© 2025 Abhinov | AI Health |  Project**

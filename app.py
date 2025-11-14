@@ -6,7 +6,7 @@ from tensorflow.keras.models import load_model
 import google.generativeai as genai
 
 # --------- Configure Gemini API ---------
-genai.configure(api_key="AIzaSyDGPcIpxKsPFk1Nil-47XkLn6VGQB_rvrI")  # <<-- Your Gemini key
+genai.configure(api_key=st.secrets["AIzaSyDGPcIpxKsPFk1Nil-47XkLn6VGQB_rvrI"])  # Use secrets for deployment, never hardcode
 
 # --------- IMAGE UTILS ---------
 def img_to_base64_str(path):
@@ -17,11 +17,9 @@ def img_to_base64_str(path):
 doctor_img_base64 = img_to_base64_str("doctor.jpeg")
 brain_img_base64  = img_to_base64_str("brain.jpeg")
 
-
 # --------- PAGE STYLE (paste your CSS here) ---------
 page_style = f"""
 <style>
-/* Your custom CSS from before goes here! */
 .corner-image {{
   position: fixed; bottom: 20px; right: 20px; width: 120px; border-radius: 14px; opacity: 0.88; z-index: 9999;
 }}
@@ -33,7 +31,6 @@ page_style = f"""
   font-size: 8vw; font-weight: 900; color: #0078AA22; user-select: none; white-space: nowrap; z-index: 0; pointer-events: none;
   font-family: "Poppins", Arial, sans-serif; letter-spacing: 10px;
 }}
-/* ... rest of your CSS ... */
 </style>
 <img src="{doctor_img_base64}" class="corner-image">
 <img src="{brain_img_base64}" class="corner-image-top-left">
@@ -63,14 +60,18 @@ with col1:
         st.image(image, width=300)
         if st.button('Start Diagnosis'):
             with st.spinner("Predicting..."):
-                model = load_model(r"C:\Users\abhin\brain tumour\brain_tumor_model(1).h5")
-                img = image.resize((224, 224))
-                img = np.array(img) / 255.0
-                img = np.expand_dims(img, axis=0)
-                pred = model.predict(img)
-                pred_idx = int(np.round(pred[0][0]))
-                labels = ['Healthy', 'Tumor']
-                st.success(f"Prediction: {labels[pred_idx]} (prob={pred[0][0]:.3f})")
+                try:
+                    # load model from relative path, works for deployment and local
+                    model = load_model("brain_tumor_model(1).h5")
+                    img = image.resize((224, 224))
+                    img = np.array(img) / 255.0
+                    img = np.expand_dims(img, axis=0)
+                    pred = model.predict(img)
+                    pred_idx = int(np.round(pred[0][0]))
+                    labels = ['Healthy', 'Tumor']
+                    st.success(f"Prediction: {labels[pred_idx]} (prob={pred[0][0]:.3f})")
+                except Exception as e:
+                    st.error(f"Prediction error: {e}")
     else:
         st.info("Limit 200MB per file • JPG, PNG, JPEG")
     st.markdown("**Consult confidentially and securely with Us.**")
@@ -159,5 +160,6 @@ st.markdown("""
   <small>24x7 emergency support | &copy; 2025 CareSync | <a href="https://www.who.int/health-topics" target="_blank" style="color:#a2e6d3;text-decoration:underline;">WHO Health Topics</a></small>
 </div>
 """, unsafe_allow_html=True)
+
 
 

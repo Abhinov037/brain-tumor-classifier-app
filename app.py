@@ -6,7 +6,8 @@ from tensorflow.keras.models import load_model
 import google.generativeai as genai
 
 # --------- Configure Gemini API ---------
-genai.configure(api_key=st.secrets["AIzaSyDGPcIpxKsPFk1Nil-47XkLn6VGQB_rvrI"])  # Use secrets for deployment, never hardcode
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+ # Use secrets for deployment, never hardcode
 
 # --------- IMAGE UTILS ---------
 def img_to_base64_str(path):
@@ -160,6 +161,7 @@ st.markdown("""
   <small>24x7 emergency support | &copy; 2025 CareSync | <a href="https://www.who.int/health-topics" target="_blank" style="color:#a2e6d3;text-decoration:underline;">WHO Health Topics</a></small>
 </div>
 """, unsafe_allow_html=True)
+
 
 
 
